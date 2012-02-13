@@ -18,7 +18,7 @@ Task 1 - Hello world
 
 ### a. Create new project and launch emulator
 * Create new Android project called 'HelloWorld'
-* start project with 'run as Android application'. 
+* Launch emulator via project 'run as Android application'. 
     * Create a new virtual device
 
 ### b. Change hello world text
@@ -66,6 +66,8 @@ Launch the new activity like this:
 
     Intent i = new Intent(this, MyActivity.class);
     startActivity(i);
+
+Hint: Add activity to AndroidManifest.xml
 
 Task 3 - on-device debugging
 ============================
