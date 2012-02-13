@@ -8,5 +8,18 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello" />
-
+    
+    <!--  task 2 -->
+    <Button android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello, I am a Button" />
+    
+    <ImageView 
+   android:id="@+id/android_image"
+   android:src="@drawable/android"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   />
+    
 </LinearLayout>
