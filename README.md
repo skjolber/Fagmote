@@ -78,7 +78,7 @@ Run the application on the phone.
 Task 4 - multiple screen resolutions
 =====================================
 ## a. Resource folders
-Determine what the resource folders
+[Determine](http://developer.android.com/guide/practices/screens_support.html) what the resource folders
 
 * drawable-ldpi
 * drawable-mdpi
