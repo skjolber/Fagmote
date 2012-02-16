@@ -1,4 +1,4 @@
-Andrioid overview
+Android overview
 =================
 * linux-based platform which runs on mobile phones and pads. 
 * has a considerable market share
