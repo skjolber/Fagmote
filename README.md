@@ -19,7 +19,7 @@ Installation
 
 1. Install Eclipse
 2. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/
-3. Install latest Android SDK runtime 4.0.3 and tools via Eclipse menu Window->Android SDK Manager.
+3. Install latest Android SDK runtime 4.0.3, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
 
 **Online installation is the most easy**. 
 
