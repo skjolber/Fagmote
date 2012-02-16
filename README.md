@@ -18,8 +18,9 @@ Installation
 **All you need to get started is available in the network share apps folder 'Android' (\\SPICA\Winapps\Android).**
 
 1. Install Eclipse
-2. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/
-3. Install latest Android SDK runtime 4.0.3, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
+2. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/ and restart eclipse
+3. An Android wizard should appear automatically, run through it. Otherwise install latest Android SDK runtime 4.0.3, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
+4. Open Window->Android SDK Manager and install the default selected items. You'll need the ARM EABI to run the emulator.
 
 **Online installation is the most easy**. 
 
