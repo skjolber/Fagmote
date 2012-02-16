@@ -3,25 +3,37 @@ Android overview
 * linux-based platform which runs on mobile phones and pads. 
 * has a considerable market share
 
-Android development
--------------------
+### Android development
 * Java SDK with emulators 
     * Eclipse plugin
 * Native SDK available for special cases
 
-Android devices
----------------
+### Android devices
 * Hundreds of devices, mostly touch screen
 * [Most devices](http://developer.android.com/resources/dashboard/platform-versions.html) are at runtime 2.1 or later, latest and greatest is 4.0.3. 
 * Multiple resolutions and aspect ratios, keyboard configurations.
 
-Requirements
+Installation
 ============
-**All you need is available in the network share apps folder 'Android'.**
+**All you need to get started is available in the network share apps folder 'Android' (\\SPICA\Winapps\Android).**
 
-Eclipse classic with ADT plugin and Android SDK runtime with latest runtime. Installing the SDK runtime(s) take forever via update site, so
-use off-line installation as described [here](http://qdevarena.blogspot.com/2010/05/download-android-sdk-standalone-for.html).  
+1. Install Eclipse
+2. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/
+3. Install latest Android SDK runtime 4.0.3 via Eclipse.
 
+**Online installation is the most easy**. 
+
+### Off-line installation
+Downloading the SDK runtime(s) takes a long time, so alternatively go for
+off-line installation:
+
+1. Copy android-15_r01.zip from network share
+2. Unzip to your sdk location 'platform' folder - for example "C:\Users\trs\android-sdks\platforms"
+3. Copy tools_r16-windows.zip and platform-tools_r10-windows.zip
+4. Unzip to root of sdk location - for example "C:\Users\trs\android-sdks\"
+5. From Eclipse, launch 'Android SDK Manager' and check that Tools and Android 4.0.3 is installed.
+
+Some troubleshooting info [here](http://qdevarena.blogspot.com/2010/05/download-android-sdk-standalone-for.html).
 Task 1 - Hello world
 ====================
 
