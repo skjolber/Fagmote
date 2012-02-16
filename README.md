@@ -3,15 +3,24 @@ Andrioid overview
 * linux-based platform which runs on mobile phones and pads. 
 * has a considerable market share
 
-## Android development
+Android development
+-------------------
 * Java SDK with emulators 
     * Eclipse plugin
 * Native SDK available for special cases
 
-## Android devices
+Android devices
+---------------
 * Hundreds of devices, mostly touch screen
 * [Most devices](http://developer.android.com/resources/dashboard/platform-versions.html) are at runtime 2.1 or later, latest and greatest is 4.0.3. 
 * Multiple resolutions and aspect ratios, keyboard configurations.
+
+Requirements
+============
+**All you need is available in the network share apps folder 'Android'.**
+
+Eclipse classic with ADT plugin and Android SDK runtime with latest runtime. Installing the SDK runtime(s) take forever via update site, so
+use off-line installation as described [here](http://qdevarena.blogspot.com/2010/05/download-android-sdk-standalone-for.html).  
 
 Task 1 - Hello world
 ====================
