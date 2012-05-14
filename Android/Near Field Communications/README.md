@@ -30,8 +30,8 @@ Add NFC support for Hello World.
 
 1. Add NFC [permissions](http://developer.android.com/guide/topics/nfc/nfc.html#manifest) to AndroidMainfest.xml:
 
-    <uses-permission android:name="android.permission.NFC" />
-	<uses-feature android:name="android.hardware.nfc" android:required="true" />
+        <uses-permission android:name="android.permission.NFC" />
+	    <uses-feature android:name="android.hardware.nfc" android:required="true" />
 
 2. Initialize NFC [foreground mode](http://developer.android.com/guide/topics/nfc/advanced-nfc.html#foreground-dispatch) in the Hello World activity:
 
@@ -42,7 +42,7 @@ Add NFC support for Hello World.
     	public void onCreate(Bundle savedInstanceState) {
         	super.onCreate(savedInstanceState);
         	setContentView(R.layout.main);
-        
+            
         	nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         	nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
     	}
@@ -59,14 +59,14 @@ Add NFC support for Hello World.
 			nfcAdapter.disableForegroundDispatch(this);
 		}
 
-* Change text from 'Hello world' to 'Hello NFC' when a tag is scanned:
+* Change text from 'Hello world' to 'Hello NFC tag' when a tag is scanned:
 
     	@Override
     	public void onNewIntent(Intent intent) {
 			// check for NFC related actions
         	if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
         		TextView textView = (TextView) findViewById(R.id.title);
-        		textView.setText("Hello NFC");
+        		textView.setText("Hello NFC tag");
         	} else {
         		// ignore
         	}
@@ -75,25 +75,24 @@ Add NFC support for Hello World.
 ### c. Read payload of the scanned tag
 Check for [NDEF](http://developer.android.com/guide/topics/nfc/nfc.html) messages using 
 
-			Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-			if (messages != null) {
-				NdefMessage[] ndefMessages = new NdefMessage[messages.length];
-		    	for (int i = 0; i < messages.length; i++) {
-		    	    ndefMessages[i] = (NdefMessage) messages[i];
-		    	}
-			
-				// found messages
-			}
+		Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+		if (messages != null) {
+			NdefMessage[] ndefMessages = new NdefMessage[messages.length];
+		   	for (int i = 0; i < messages.length; i++) {
+		   	    ndefMessages[i] = (NdefMessage) messages[i];
+		   	}
+		
+			// found messages
+		}
 
 
 ### d. Parse payload of the scanned tag using [nfctools](https://github.com/grundid/nfctools/tree/master/nfctools-ndef/src/main/java/org/nfctools/ndef)
 Create directory 'libs' and add [nfctools.jar](http://nfc-eclipse-plugin.googlecode.com/git/Android%20NFC/libs/nfctools.jar) to your classpath.
 Parse an NDEF message into records using
 
-			NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
-			// parse to records - byte to POJO
-			List<Record> records = ndefMessageDecoder.decodeToRecords(ndefMessages[i].toByteArray());
-
+		NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
+		// parse to records - byte to POJO
+		List<Record> records = ndefMessageDecoder.decodeToRecords(ndefMessages[i].toByteArray());
 
 ### e. Determine which NDEF record types are present on the tag.
 Iterate of the parsed records and investigate their type and contents.
@@ -105,7 +104,7 @@ Task 2 - create new NDEF tag
 Create a new file using New -> Other -> Near Field Communications -> NDEF File.
 
 ### a. Create an Android Application Record
-Create an Android Application Record with package name 'no.java.schedule'. 
+Create an Android Application Record with package name 'no.java.schedule' using the editor.
 
 ### b. Write the Android Application Record to a tag.
 Use the 'NFC Developer' application to scan the QR code and then write hold a tag to the back of the device.
@@ -116,7 +115,7 @@ Hint: If you do not already have an application 'no.java.schedule' installed, An
 
 Task 3 - device to device communication: Android Beam
 =====================================================
-Use [Android Beam](http://developer.android.com/guide/topics/nfc/nfc.html#p2p) to exchange information between two devices
+Use [Android Beam](http://developer.android.com/guide/topics/nfc/nfc.html#p2p) to exchange information between two devices.
 
 ### a. Register push message callback interface 
 Implement the CreateNdefMessageCallback interface and register callback using 
@@ -136,6 +135,6 @@ Compose an NdefMessage in the createNdefMessage(..) method:
 		return new NdefMessage(ndefMessageEncoder.encodeSingle(record));
 
 ### c. Read push NdefMessage
-Read a message pushed from another NFC device.
+Change text from 'Hello world' to 'Hello NFC device' when a is message pushed from another NFC device.
 
 Hint: Extent intent filter from task 1 to include NfcAdapter.ACTION_NDEF_DISCOVERED.
