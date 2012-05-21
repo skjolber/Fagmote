@@ -36,6 +36,7 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        // initialize NFC
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         
