@@ -74,7 +74,7 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
     		        ndefMessages[i] = (NdefMessage) messages[i];
     		    }
     		    
-    		    Log.d(TAG, "Found " + messages.length + " messages");
+    		    Log.d(TAG, "Found " + ndefMessages.length + " NDEF messages");
     		    
     			NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
     			// parse to records - byte to POJO

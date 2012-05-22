@@ -77,7 +77,7 @@ Add NFC support for Hello World.
 		    Log.d(TAG, "enableForegroundMode");
 		
 			// foreground mode gives the current active application priority for reading scanned tags
-        	IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);  // filter for tags
+        	IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED); // filter for tags
         	IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
         	nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
     	}
@@ -114,7 +114,7 @@ Check for [NDEF](http://developer.android.com/guide/topics/nfc/nfc.html) message
 		   	    ndefMessages[i] = (NdefMessage) messages[i];
 		   	}
 		
-			// found messages
+    		Log.d(TAG, "Found " + ndefMessages.length + " NDEF messages");
 		}
 
 
@@ -157,3 +157,15 @@ Compose an NdefMessage in the createNdefMessage(..) method:
 Change text from 'Hello world' to 'Hello NFC device' when a is message pushed from another NFC device.
 
 Hint: Extend intent filter from task 2 to include NfcAdapter.ACTION_NDEF_DISCOVERED.
+
+Bonus task - more NDEF record types
+===================================
+### a. Create well-known URI record.
+### b. Create Mime Record.
+What are the tag classes and their storage capactiy?
+### c. Create External type Record.
+### d. Create Android Application Record with an Mime Record.
+Are you able to start the application and also read the Mime Record payload?
+
+
+
