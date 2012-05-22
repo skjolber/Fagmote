@@ -1,7 +1,7 @@
-Starting point for tutorial
-==================================
+Starting point for tutorial for experienced Android developers
+==============================================================
  * basic project setup
  * android manifest permissions 
  * library imports
- * title id in main.xml
+ * added title id in main.xml
  

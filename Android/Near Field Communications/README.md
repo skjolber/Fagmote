@@ -14,7 +14,7 @@ Installation
 2. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/
 3. An Android wizard should appear automatically, run through it. Otherwise install latest Android SDK runtime 4.0.3, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
 4. Open Window->Android SDK Manager and install the default selected items.
-5. Install NDEF plugin from update site http://nfc-eclipse-plugin.googlecode.com/git/nfc-eclipse-plugin-feature/update-site/ 
+5. Install [NDEF plugin](http://nfc-eclipse-plugin.googlecode.com) from update site http://nfc-eclipse-plugin.googlecode.com/git/nfc-eclipse-plugin-feature/update-site/ 
 6. Install Android application [NFC Developer](https://play.google.com/store/apps/details?id=com.antares.nfc) from Android Play.
 
 Task 1 - Create new tag
@@ -119,7 +119,7 @@ Check for [NDEF](http://developer.android.com/guide/topics/nfc/nfc.html) message
 
 
 ### d. Parse tag payload using [nfctools](https://github.com/grundid/nfctools/tree/master/nfctools-ndef/src/main/java/org/nfctools/ndef)
-Create directory 'libs' and add [nfctools.jar](http://nfc-eclipse-plugin.googlecode.com/git/Android%20NFC/libs/nfctools.jar) to your classpath.
+Create directory 'libs' and add [nfctools.jar](https://github.com/skjolber/Fagmote/raw/master/Android/Near%20Field%20Communications/HelloWorldNFC%20Base/libs/nfctools.jar) to your classpath.
 Parse an NDEF message into records using
 
 		NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
