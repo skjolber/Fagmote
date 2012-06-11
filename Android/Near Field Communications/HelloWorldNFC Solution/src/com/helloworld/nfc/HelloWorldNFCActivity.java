@@ -18,13 +18,19 @@ import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcAdapter.CreateNdefMessageCallback;
+import android.nfc.NfcAdapter.OnNdefPushCompleteCallback;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class HelloWorldNFCActivity extends Activity implements CreateNdefMessageCallback {
+public class HelloWorldNFCActivity extends Activity implements CreateNdefMessageCallback, OnNdefPushCompleteCallback {
+	
+	private static final int MESSAGE_SENT = 1;
 	
     private static final String TAG = HelloWorldNFCActivity.class.getSimpleName();
 
@@ -42,14 +48,15 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
         
         // Register Android Beam callback
         nfcAdapter.setNdefPushMessageCallback(this, this);
+        // Register callback to listen for message-sent success
+        nfcAdapter.setOnNdefPushCompleteCallback(this, this);
     }
     
 	public void enableForegroundMode() {
     	Log.d(TAG, "enableForegroundMode");
 
-        IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED); // filter for tags
-        IntentFilter ndefDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED); // filter for Android Beam
-        IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected, ndefDetected};
+        IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED); // filter for all
+        IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
         nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
     }
 	
@@ -65,8 +72,13 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
     	
     	if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
         	TextView textView = (TextView) findViewById(R.id.title);
-        	textView.setText("Hello NFC");
         	
+        	// task 2
+        	textView.setText("Hello NFC tag");
+
+        	// task 3
+        	textView.setText("Hello NFC device");
+
     		Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
     		if (messages != null) {
     			NdefMessage[] ndefMessages = new NdefMessage[messages.length];
@@ -84,10 +96,6 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
         		    Log.d(TAG, "Found " + records.size() + " records in message " + i);
     		    }
     		}
-    	} else if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
-        	TextView textView = (TextView) findViewById(R.id.title);
-        	textView.setText("Hello Android Beam");
-    		
         } else {
         	// ignore
         }
@@ -131,5 +139,22 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 		}
     }
 
-	
+    @Override
+	public void onNdefPushComplete(NfcEvent arg0) {
+    	// A handler is needed to send messages to the activity when this
+    	// callback occurs, because it happens from a binder thread
+    	mHandler.obtainMessage(MESSAGE_SENT).sendToTarget();
+    }
+
+	/** This handler receives a message from onNdefPushComplete */
+	private final Handler mHandler = new Handler() {
+    	@Override
+    	public void handleMessage(Message msg) {
+        	switch (msg.what) {
+        	case MESSAGE_SENT:
+            	Toast.makeText(getApplicationContext(), "Message beamed!", Toast.LENGTH_LONG).show();
+           	 break;
+        	}
+    	}
+	};	
 }
