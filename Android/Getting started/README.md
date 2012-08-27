@@ -101,6 +101,8 @@ Connect Android device using USB cable and enable developer mode in settings:
 
 Launch hello world application via right-clicking on project and 'Run As -> Android application'. Show view 'LogCat' in Eclipse and verify that messages appear.
 
+Are  you able to set a breakpoint and do some proper debugging?
+
 Task 4 - multiple screen resolutions
 =====================================
 ## a. Resource folders
