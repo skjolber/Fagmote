@@ -72,27 +72,24 @@ We want to receieve NFC messages when our application is showing on the screen.
 
 2. Initialize NFC [foreground mode](http://developer.android.com/guide/topics/nfc/advanced-nfc.html#foreground-dispatch) in the Hello World activity:
 
-    	protected NfcAdapter nfcAdapter;
-        protected PendingIntent nfcPendingIntent;
-        
-	@Override
-    	public void onCreate(Bundle savedInstanceState) {
-        	super.onCreate(savedInstanceState);
-        	setContentView(R.layout.main);
-            
-            	// initialize NFC
-        	nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        	nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-    	}
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+        		super.onCreate(savedInstanceState);
+        		setContentView(R.layout.main);
+		
+			// initialize NFC
+        		nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        		nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+	    	}
 
 	
 3. Make sure 
 Enable and disable foreground mode in onResume() and onPause() in the Hello World activity:
 
 		public void enableForegroundMode() {
-		    Log.d(TAG, "enableForegroundMode");
+		    	Log.d(TAG, "enableForegroundMode");
 		
-			// foreground mode gives the current active application priority for reading scanned tags
+				// foreground mode gives the current active application priority for reading scanned tags
         		IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED); // filter for tags
         		IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
         		nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
@@ -107,7 +104,7 @@ Enable and disable foreground mode in onResume() and onPause() in the Hello Worl
 4. Change text from 'Hello world' to 'Hello NFC tag' when a tag is scanned:
 
     	@Override
-    	public void onNewIntent(Intent intent) {
+    	public void onNewIntent(Intent intent) { // this method is called when an NFC tag is scanned
 		Log.d(TAG, "onNewIntent");
 
 			// check for NFC related actions
@@ -119,7 +116,9 @@ Enable and disable foreground mode in onResume() and onPause() in the Hello Worl
         	}
     	}
 
-Verify functionality by scanning a tag.
+Verify functionality by scanning a tag. 
+
+Hint: If nothing happends, make sure you are holding the tag in the center of the backside of the phone (NFC range is only 4 cm ;-))
 ### c. Read tag payload
 Check for [NDEF](http://developer.android.com/guide/topics/nfc/nfc.html) messages in method onNewIntent(..) using 
 
@@ -204,7 +203,8 @@ Implement the OnNdefPushCompleteCallback interface to show a notification when a
             	}
         	}
     	};
-		
+
+Verify that everything is working by holding two phones together. Reflect over the user-friendliness of transferring a lot of data between two devices this way - what would be a more practical approach in such a scenario?
 
 Bonus task - more NDEF record types
 ===================================
