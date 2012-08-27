@@ -1,7 +1,7 @@
 Android overview
 =================
-* linux-based platform which runs on mobile phones and pads. 
-* has a considerable market share
+* Linux-based platform which runs on mobile phones and pads. 
+* Has a considerable market share
 
 ### Android development
 * Java SDK with emulators 
@@ -10,31 +10,33 @@ Android overview
 
 ### Android devices
 * Hundreds of devices, mostly touch screen
-* [Most devices](http://developer.android.com/resources/dashboard/platform-versions.html) are at runtime 2.1 or later, latest and greatest is 4.0.3. 
+* [Most devices](http://developer.android.com/resources/dashboard/platform-versions.html) are at runtime 2.1 or later, latest and greatest is 4.1. 
 * Multiple resolutions and aspect ratios, keyboard configurations.
 
-Installation
-============
-**All you need to get started is available in the network share apps folder 'Android' (\\SPICA\Winapps\Android).**
+Workshop targets
+=========================
+* Create a clickable button
+* Create a new activity (screen)
+* Do some on-device debugging
+* Handle multiple screen resolutions
 
-1. Install Eclipse
-2. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/ and restart eclipse
-3. An Android wizard should appear automatically, run through it. Otherwise install latest Android SDK runtime 4.0.3, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
-4. Open Window->Android SDK Manager and install the default selected items. You'll need the ARM EABI to run the emulator.
+Requirements - bring this
+=========================
+* A computer (PC, Mac or Linux)
+* An NFC-enabled device (Android 4.0 or higher)
+* An USB cable to connect computer and device
+* Eclipe with Android SDK installed, see below.
 
-**Online installation is the most easy**. 
+Installation - do this before you arrive
+========================================
+1. Install Eclipse 3.7.2 (Indigo) or later and launch it
+2. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/
+3. An Android wizard should appear automatically, run through it. Otherwise install latest Android SDK runtime 4.0.x, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
+4. Open Window->Android SDK Manager and install the default selected items.
+5. Install [NDEF plugin](http://nfc-eclipse-plugin.googlecode.com) from update site http://nfc-eclipse-plugin.googlecode.com/git/nfc-eclipse-plugin-feature/update-site/ 
+6. Install Android application [NFC Developer](https://play.google.com/store/apps/details?id=com.antares.nfc) from Android Play.
+7. Check out this (https://github.com/skjolber/Fagmote.git) Git repository.
 
-### Off-line installation
-Downloading the SDK runtime(s) takes a long time, so alternatively go for
-off-line installation:
-
-1. Copy android-15_r01.zip from network share
-2. Unzip to your sdk location 'platform' folder - for example "C:\Users\trs\android-sdks\platforms"
-3. Copy tools_r16-windows.zip and platform-tools_r10-windows.zip
-4. Unzip to root of sdk location - for example "C:\Users\trs\android-sdks\"
-5. From Eclipse, launch 'Android SDK Manager' and check that Tools and Android 4.0.3 is installed.
-
-Some troubleshooting info [here](http://qdevarena.blogspot.com/2010/05/download-android-sdk-standalone-for.html).
 Task 1 - Hello world
 ====================
 
@@ -93,9 +95,11 @@ Hint: Add activity to AndroidManifest.xml
 
 Task 3 - on-device debugging
 ============================
-Enable developer mode in you Andorid phone via settings. Connect your Android phone to your PC using an USB cable. 
+Connect Android device using USB cable and enable developer mode in settings:
+* USB debugging
+* Remain awake when charging
 
-Run the application on the phone. 
+Launch hello world application via right-clicking on project and 'Run As -> Android application'. Show view 'LogCat' in Eclipse and verify that messages appear.
 
 Task 4 - multiple screen resolutions
 =====================================

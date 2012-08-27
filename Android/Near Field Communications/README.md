@@ -1,26 +1,38 @@
 Near Field Communications overview
 ==================================
-* close-range radio communication - 4 cm effective range
-* effective for small bursts of data
-* comes in 'active' and 'passive' forms, typically as in an active mobile device and a passive (sticker) tag  
-* expected smart-phone penetration of 50% by 2013
+* Close-range radio communication - 4 cm effective range
+* Effective for small bursts of data
+* Comes in 'active' and 'passive' forms, typically as in an active mobile device and a passive (sticker) tag  
+* Expected smart-phone penetration of 50% by 2013
 
-### Android NFC development
-* Android SDK 4.0 or higher with an NFC device (NFC is not supported by emulator yet) 
+Workshop targets
+=========================
+* Learn some NDEF format basics
+* Write some messages to an NFC tag
+* Read those messages into an Android device with NFC support
+* Send NDEF messages directly between device to device 
 
-Installation
-============
-1. Install Eclipse
+Requirements - bring this
+=========================
+* A computer (PC, Mac or Linux)
+* An NFC-enabled device (Android 4.0 or higher)
+* An USB cable to connect computer and device
+* Eclipe with Android SDK installed, see below.
+
+Installation - do this before you arrive
+========================================
+1. Install Eclipse 3.7.2 (Indigo) or later and launch it
 2. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/
-3. An Android wizard should appear automatically, run through it. Otherwise install latest Android SDK runtime 4.0.3, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
+3. An Android wizard should appear automatically, run through it. Otherwise install latest Android SDK runtime 4.0.x, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
 4. Open Window->Android SDK Manager and install the default selected items.
 5. Install [NDEF plugin](http://nfc-eclipse-plugin.googlecode.com) from update site http://nfc-eclipse-plugin.googlecode.com/git/nfc-eclipse-plugin-feature/update-site/ 
 6. Install Android application [NFC Developer](https://play.google.com/store/apps/details?id=com.antares.nfc) from Android Play.
+7. Check out this (https://github.com/skjolber/Fagmote.git) Git repository.
 
 Task 1 - Create new tag
 =========================
-### a. Create new project
-Create new Android project called 'HelloWorld NFC' and use package name com.helloworld.nfc.
+### a. Open project
+Import project 'HelloWorldNFC Base'. 
 
 ### b. Create new NDEF file
 Create a new file in the root of the project using New -> Other -> Near Field Communications -> NDEF File.
@@ -42,48 +54,52 @@ Hint: If you do not already have an application with identifier 'no.java.schedul
 
 Task 2 - Hello NFC tag
 ===========================
-### a. Launch hello world application from tag
-1. Change the Android Application Record package from task 1 to 'com.helloworld.nfc', write it to tag.
-2. Connect Android device via USB cable and launch hello world application via project -> 'run as Android application'.
-3. Close the application, scan the tag, verify that hello world application starts.
+### a. Launch hello world application
+Connect Android device using USB cable and enable developer mode in settings:
+* USB debugging
+* Remain awake when charging
+
+Launch hello world application via right-clicking on project and 'Run As -> Android application'. Show view 'LogCat' in Eclipse and verify that messages appear.
 
 ### b. Change Hello World text by scanning a tag
-Add NFC support for Hello World.
+We want to receieve NFC messages when our application is showing on the screen. 
 
-1. Add NFC [permissions](http://developer.android.com/guide/topics/nfc/nfc.html#manifest) to AndroidMainfest.xml:
+1. Uncomment NFC [permissions](http://developer.android.com/guide/topics/nfc/nfc.html#manifest) in AndroidMainfest.xml:
 
 		<!-- Near field communications permissions -->
         <uses-permission android:name="android.permission.NFC" />
-	    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+	<uses-feature android:name="android.hardware.nfc" android:required="true" />
 
 2. Initialize NFC [foreground mode](http://developer.android.com/guide/topics/nfc/advanced-nfc.html#foreground-dispatch) in the Hello World activity:
 
     	protected NfcAdapter nfcAdapter;
         protected PendingIntent nfcPendingIntent;
         
-		@Override
+	@Override
     	public void onCreate(Bundle savedInstanceState) {
         	super.onCreate(savedInstanceState);
         	setContentView(R.layout.main);
             
-            // initialize NFC
+            	// initialize NFC
         	nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         	nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
     	}
+
 	
-3. Enable and disable foreground mode in onResume() and onPause():
+3. Make sure 
+Enable and disable foreground mode in onResume() and onPause() in the Hello World activity:
 
 		public void enableForegroundMode() {
 		    Log.d(TAG, "enableForegroundMode");
 		
 			// foreground mode gives the current active application priority for reading scanned tags
-        	IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED); // filter for tags
-        	IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
-        	nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
-    	}
+        		IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED); // filter for tags
+        		IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
+        		nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
+    		}
 	
 		public void disableForegroundMode() {
-		    Log.d(TAG, "disableForegroundMode");
+			Log.d(TAG, "disableForegroundMode");
 		
 			nfcAdapter.disableForegroundDispatch(this);
 		}
@@ -92,6 +108,8 @@ Add NFC support for Hello World.
 
     	@Override
     	public void onNewIntent(Intent intent) {
+		Log.d(TAG, "onNewIntent");
+
 			// check for NFC related actions
         	if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
         		TextView textView = (TextView) findViewById(R.id.title);
@@ -100,12 +118,10 @@ Add NFC support for Hello World.
         		// ignore
         	}
     	}
-	
-Hint: Make sure you add attribute 'android:id="@+id/title"' to TextView in main.xml.
 
 Verify functionality by scanning a tag.
 ### c. Read tag payload
-Check for [NDEF](http://developer.android.com/guide/topics/nfc/nfc.html) messages using 
+Check for [NDEF](http://developer.android.com/guide/topics/nfc/nfc.html) messages in method onNewIntent(..) using 
 
 		Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 		if (messages != null) {
@@ -114,17 +130,22 @@ Check for [NDEF](http://developer.android.com/guide/topics/nfc/nfc.html) message
 		   	    ndefMessages[i] = (NdefMessage) messages[i];
 		   	}
 		
-    		Log.d(TAG, "Found " + ndefMessages.length + " NDEF messages");
+    			Log.d(TAG, "Found " + ndefMessages.length + " NDEF messages");
+
+			vibrate(); // signal found messages :-)
 		}
 
 
 ### d. Parse tag payload using [nfctools](https://github.com/grundid/nfctools/tree/master/nfctools-ndef/src/main/java/org/nfctools/ndef)
-Create directory 'libs' and add [nfctools.jar](https://github.com/skjolber/Fagmote/raw/master/Android/Near%20Field%20Communications/HelloWorldNFC%20Base/libs/nfctools.jar) to your classpath.
-Parse an NDEF message into records using
+Parse messages from previous task into Records using
 
 		NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
 		// parse to records - byte to POJO
-		List<Record> records = ndefMessageDecoder.decodeToRecords(ndefMessages[i].toByteArray());
+		for (int i = 0; i < messages.length; i++) {
+			List<Record> records = ndefMessageDecoder.decodeToRecords(ndefMessages[i].toByteArray());
+
+			Log.d(TAG, "Found " + records.size() + " records in message " + i);
+		}
 
 ### e. Determine which NDEF record types are present on the tag.
 Iterate of the parsed records and investigate their type and contents.
@@ -170,7 +191,7 @@ Implement the OnNdefPushCompleteCallback interface to show a notification when a
         	mHandler.obtainMessage(MESSAGE_SENT).sendToTarget();
 	    }
 
-	    private static final int MESSAGE_SENT = 1;   
+	    private static final int MESSAGE_SENT = 1;
 	     
     	/** This handler receives a message from onNdefPushComplete */
     	private final Handler mHandler = new Handler() {
@@ -187,11 +208,15 @@ Implement the OnNdefPushCompleteCallback interface to show a notification when a
 
 Bonus task - more NDEF record types
 ===================================
-### a. Create well-known URI record.
-### b. Create Mime Record.
-What are the tag classes and their storage capactiy?
-### c. Create External type Record.
-### d. Create Android Application Record with an Mime Record.
+### a. How would you make NFC support optional?
+Not all devices have NFC chips (yet)
+### b. What are the tag classes and their storage capactiy?
+What are the disadvantage of larger storage capacities?
+### c. Create more record types
+1. Create well-known URI record.
+2. Create Mime Record.
+3. Create External type Record.
+4. Create Android Application Record with an Mime Record.
 Are you able to start the application and also read the Mime Record payload?
 
 

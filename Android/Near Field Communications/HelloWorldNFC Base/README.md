@@ -1,7 +1,8 @@
-Starting point for tutorial for experienced Android developers
-==============================================================
- * basic project setup
- * android manifest permissions 
- * library imports
- * added title id in main.xml
+Starting point for NFC tutorial
+==================================
+
+ * Basic project setup
+ * Android manifest permissions 
+ * Library imports and some empty methods 
+ * Added title id in main.xml
  
