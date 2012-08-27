@@ -46,7 +46,7 @@ Task 1 - Hello world
     * Create a new virtual device
 
 ### b. Change hello world text
-Change text from 'Hello world' to 'Hello Antares'
+Change text from 'Hello world' to 'Hello Javazone'
 
 Hint: Check the files in the 'res' directory
 
