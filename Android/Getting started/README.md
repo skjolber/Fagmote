@@ -76,7 +76,7 @@ Hint: Show view 'LogCat' in Eclipse
 
 Task 2 - create new Activity
 ============================
-Check out the '![Activity lifecycle](http://developer.android.com/images/activity_lifecycle.png)' figure in [Android documentation](http://developer.android.com/reference/android/app/Activity.html).
+Check out the [Activity lifecycle](http://developer.android.com/images/activity_lifecycle.png)' figure in [Android documentation](http://developer.android.com/reference/android/app/Activity.html).
 
 ### a. Create new Activity class
 Create a new class 'MyActivity' with extends the Activity class. Copy the 'onCreate' method from HelloWorldActivity.
