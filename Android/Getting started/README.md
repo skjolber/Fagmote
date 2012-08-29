@@ -30,13 +30,13 @@ Requirements - bring this
 Installation - do this before you arrive
 ========================================
 1. Get JDK 1.6 or later
-2. Install Eclipse 3.7.2 (Indigo) or later and launch it
+2. Install [Eclipse Classic](http://www.eclipse.org/downloads/packages/eclipse-classic-42/junor) 3.7.2 (Indigo) or later and launch it
 3. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/
 4. An Android wizard should appear automatically, run through it. Otherwise install latest Android SDK runtime 4.0.x, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
 5. Open Window->Android SDK Manager and install the default selected items.
 6. Install [NFC plugin](http://nfc-eclipse-plugin.googlecode.com) from update site http://nfc-eclipse-plugin.googlecode.com/git/nfc-eclipse-plugin-feature/update-site/ 
 7. Install Android application [NFC Developer](https://play.google.com/store/apps/details?id=com.antares.nfc) from Android Play.
-8. Check out this (https://github.com/skjolber/Fagmote.git) Git repository.
+8. Install GIT client from Eclipse update repo and check out this (https://github.com/skjolber/Fagmote.git) Git repository. Alternatively, [download zip](https://github.com/skjolber/Fagmote/downloads).
 
 Task 1 - Hello world
 ====================
@@ -76,7 +76,7 @@ Hint: Show view 'LogCat' in Eclipse
 
 Task 2 - create new Activity
 ============================
-Check out the topmost figure in [Android documentation](http://developer.android.com/reference/android/app/Activity.html).
+Check out the '![Activity lifecycle](http://developer.android.com/images/activity_lifecycle.png)' figure in [Android documentation](http://developer.android.com/reference/android/app/Activity.html).
 
 ### a. Create new Activity class
 Create a new class 'MyActivity' with extends the Activity class. Copy the 'onCreate' method from HelloWorldActivity.
@@ -89,7 +89,7 @@ Start the activity from the button click listener in task 1.
 
 Launch the new activity like this: 
 
-    Intent i = new Intent(this, MyActivity.class);
+    Intent i = new Intent(MainActivity.this, MyActivity.class);
     startActivity(i);
 
 Hint: Add activity to AndroidManifest.xml
@@ -116,7 +116,7 @@ Task 4 - multiple screen resolutions
 are used for. 
 
 ## b. Image view
-Create directory 'res/drawable' and copy file [android.png](http://www.mediafire.com/imgbnc.php/1ba890f73cfdc925e08b13fe34d5141e6g.jpg) into the directory. Then add the following to main.xml:
+Create directory 'res/drawable' and copy file [android.jpg](http://www.mediafire.com/imgbnc.php/1ba890f73cfdc925e08b13fe34d5141e6g.jpg) into the directory. Then add the following to main.xml:
 
     <ImageView 
       android:id="@+id/android_image"
