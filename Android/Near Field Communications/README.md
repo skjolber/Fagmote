@@ -143,6 +143,11 @@ Parse messages from previous task into Records using
 			List<Record> records = ndefMessageDecoder.decodeToRecords(ndefMessages[i].toByteArray());
 
 			Log.d(TAG, "Found " + records.size() + " records in message " + i);
+
+			for(int k = 0; k < records.size(); k++) {
+				Log.d(TAG, " Record " + k + " is of class " + records.get(k).getClass().getSimpleName());
+			}
+
 		}
 
 ### e. Determine which NDEF record types are present on the tag.

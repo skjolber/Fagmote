@@ -98,7 +98,11 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 					List<Record> records = ndefMessageDecoder.decodeToRecords(ndefMessages[i].toByteArray());
 
 					Log.d(TAG, "Found " + records.size() + " records in message " + i);
-				}
+					
+					for(int k = 0; k < records.size(); k++) {
+						Log.d(TAG, " Record " + k + " is of class " + records.get(k).getClass().getSimpleName());
+					}
+ 				}
 			}
 		} else {
 			// ignore
