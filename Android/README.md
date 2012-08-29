@@ -20,7 +20,7 @@ Installation - do this before you arrive
 5. Open Window->Android SDK Manager and install the default selected items.
 6. Install [NFC plugin](http://nfc-eclipse-plugin.googlecode.com) from update site http://nfc-eclipse-plugin.googlecode.com/git/nfc-eclipse-plugin-feature/update-site/ 
 7. Install Android application [NFC Developer](https://play.google.com/store/apps/details?id=com.antares.nfc) from Android Play.
-8. Check out this (https://github.com/skjolber/Fagmote.git) Git repository.
+8. Install GIT client from Eclipse update repo and check out this (https://github.com/skjolber/Fagmote.git) Git repository. Alternatively, [download zip](https://github.com/skjolber/Fagmote/downloads).
 
 Warning: Failure to set up correctly means you will use all of the allotted time for the workshop to get set up correctly.
 
