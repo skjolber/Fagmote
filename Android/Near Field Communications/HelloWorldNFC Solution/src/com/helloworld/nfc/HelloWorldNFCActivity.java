@@ -76,31 +76,24 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 			TextView textView = (TextView) findViewById(R.id.title);
 
 			// task 2
-			textView.setText("Hello NFC tag");
-
-			// task 3
-			textView.setText("Hello NFC device");
+			textView.setText("Hello NFC!");
 
 			Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 			if (messages != null) {
-				NdefMessage[] ndefMessages = new NdefMessage[messages.length];
-				for (int i = 0; i < messages.length; i++) {
-					ndefMessages[i] = (NdefMessage) messages[i];
-				}
 
-				Log.d(TAG, "Found " + ndefMessages.length + " NDEF messages");
+				Log.d(TAG, "Found " + messages.length + " NDEF messages");
 
 				vibrate(); // signal found messages :-)
 
 				NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
 				// parse to records - byte to POJO
 				for (int i = 0; i < messages.length; i++) {
-					List<Record> records = ndefMessageDecoder.decodeToRecords(ndefMessages[i].toByteArray());
+					List<Record> records = ndefMessageDecoder.decodeToRecords(((NdefMessage)messages[i]).toByteArray());
 
 					Log.d(TAG, "Found " + records.size() + " records in message " + i);
 					
 					for(int k = 0; k < records.size(); k++) {
-						Log.d(TAG, " Record " + k + " is of class " + records.get(k).getClass().getSimpleName());
+						Log.d(TAG, " Record #" + k + " is of class " + records.get(k).getClass().getSimpleName());
 					}
  				}
 			}
@@ -131,13 +124,10 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 	public NdefMessage createNdefMessage(NfcEvent event) {
 		Log.d(TAG, "createNdefMessage");
 
-		// create text record
-		TextRecord record = new TextRecord();
-		record.setText("Android Bean");
-		record.setLocale(Locale.ENGLISH);
-		record.setEncoding(Charset.forName("UTF-8"));
+		// create record to be pushed
+		TextRecord record = new TextRecord("This is my text record");
 
-		// encode one or more records to NdefMessage	
+		// encode one or more record to NdefMessage
 		NdefMessageEncoder ndefMessageEncoder = NdefContext.getNdefMessageEncoder();
 		try {
 			return new NdefMessage(ndefMessageEncoder.encodeSingle(record));

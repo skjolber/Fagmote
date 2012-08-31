@@ -31,9 +31,9 @@ Installation - do this before you arrive
 ========================================
 1. Get JDK 1.6 or later
 2. Install [Eclipse Classic](http://www.eclipse.org/downloads/packages/eclipse-classic-42/junor) 3.7.2 (Indigo) or later and launch it
-3. Install ADT plugin from update site https://dl-ssl.google.com/android/eclipse/
-4. An Android wizard should appear automatically, run through it. Otherwise install latest Android SDK runtime 4.0.x, platform tools and USB drivers via Eclipse menu Window->Android SDK Manager.
-5. Open Window->Android SDK Manager and install the default selected items.
+3. From update site https://dl-ssl.google.com/android/eclipse/ install 'Developer Tools' and restart
+4. An Android wizard should appear automatically, run through it. Otherwise go to next step.
+5. Open Window->Android SDK Manager and install all of the items under 'Tools' and 'Android 4.1 (API 16)' and also 'Google USB Driver' under 'Extras'
 6. Install [NFC plugin](http://nfc-eclipse-plugin.googlecode.com) from update site http://nfc-eclipse-plugin.googlecode.com/git/nfc-eclipse-plugin-feature/update-site/ 
 7. Install Android application [NFC Developer](https://play.google.com/store/apps/details?id=com.antares.nfc) from Android Play.
 8. Install GIT client from Eclipse update repo and check out this (https://github.com/skjolber/Fagmote.git) Git repository. Alternatively, [download zip](https://github.com/skjolber/Fagmote/downloads).
