@@ -1,21 +1,16 @@
 package com.helloworld.nfc;
 
-import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Locale;
 
-import org.nfctools.ndef.NdefContext;
-import org.nfctools.ndef.NdefMessageDecoder;
-import org.nfctools.ndef.NdefMessageEncoder;
-import org.nfctools.ndef.Record;
-import org.nfctools.ndef.wkt.records.TextRecord;
+import org.ndeftools.Message;
+import org.ndeftools.Record;
+import org.ndeftools.wellknown.TextRecord;
 
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcAdapter.CreateNdefMessageCallback;
@@ -23,7 +18,6 @@ import android.nfc.NfcAdapter.OnNdefPushCompleteCallback;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.os.Parcelable;
 import android.os.Vibrator;
 import android.util.Log;

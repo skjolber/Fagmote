@@ -132,20 +132,23 @@ Check for [NDEF](http://developer.android.com/guide/topics/nfc/nfc.html) message
 		}
 
 Verify that messages appear in the log.
-### d. Parse tag payload using [nfctools](https://github.com/grundid/nfctools/tree/master/nfctools-ndef/src/main/java/org/nfctools/ndef)
+### d. Parse tag payload using [NDEF Tools for Android](http://code.google.com/p/ndef-tools-for-android/)
 Parse messages from previous task into Records using
 
-		NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
-		// parse to records - byte to POJO
+		// parse to records
 		for (int i = 0; i < messages.length; i++) {
-			List<Record> records = ndefMessageDecoder.decodeToRecords(((NdefMessage)messages[i]).toByteArray());
-
-			Log.d(TAG, "Found " + records.size() + " records in message " + i);
-
-			for(int k = 0; k < records.size(); k++) {
-				Log.d(TAG, " Record #" + k + " is of class " + records.get(k).getClass().getSimpleName());
+			try {
+				List<Record> records = new Message((NdefMessage)messages[i]);
+						
+				Log.d(TAG, "Found " + records.size() + " records in message " + i);
+						
+				for(int k = 0; k < records.size(); k++) {
+					Log.d(TAG, " Record #" + k + " is of class " + records.get(k).getClass().getSimpleName());
+				}
+			} catch (Exception e) {
+				Log.e(TAG, "Problem parsing message", e);
 			}
-
+		
 		}
 
 Verify that the expected messages appear in the log.
@@ -171,8 +174,7 @@ Implement method 'createNdefMessage(..) - compose the NdefMessage to be pushed:
 		TextRecord record = new TextRecord("This is my text record");
 				
 		// encode one or more record to NdefMessage
-        NdefMessageEncoder ndefMessageEncoder = NdefContext.getNdefMessageEncoder();
-		return new NdefMessage(ndefMessageEncoder.encodeSingle(record));
+		return new NdefMessage(record.getNdefRecord());
 
 ### c. Read push message
 Hold two devices together and see what happens. When a is message pushed from one NFC device to another?

@@ -1,21 +1,16 @@
 package com.helloworld.nfc;
 
-import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Locale;
 
-import org.nfctools.ndef.NdefContext;
-import org.nfctools.ndef.NdefMessageDecoder;
-import org.nfctools.ndef.NdefMessageEncoder;
-import org.nfctools.ndef.Record;
-import org.nfctools.ndef.wkt.records.TextRecord;
+import org.ndeftools.Message;
+import org.ndeftools.Record;
+import org.ndeftools.wellknown.TextRecord;
 
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcAdapter.CreateNdefMessageCallback;
@@ -23,7 +18,6 @@ import android.nfc.NfcAdapter.OnNdefPushCompleteCallback;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.os.Parcelable;
 import android.os.Vibrator;
 import android.util.Log;
@@ -81,20 +75,24 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 			Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 			if (messages != null) {
 
-				Log.d(TAG, "Found " + messages.length + " NDEF messages");
+				Log.d(TAG, "Found " + messages.length + " NDEF messages"); // is almost always just one
 
 				vibrate(); // signal found messages :-)
 
-				NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
-				// parse to records - byte to POJO
+				// parse to records
 				for (int i = 0; i < messages.length; i++) {
-					List<Record> records = ndefMessageDecoder.decodeToRecords(((NdefMessage)messages[i]).toByteArray());
-
-					Log.d(TAG, "Found " + records.size() + " records in message " + i);
-					
-					for(int k = 0; k < records.size(); k++) {
-						Log.d(TAG, " Record #" + k + " is of class " + records.get(k).getClass().getSimpleName());
+					try {
+						List<Record> records = new Message((NdefMessage)messages[i]);
+						
+						Log.d(TAG, "Found " + records.size() + " records in message " + i);
+						
+						for(int k = 0; k < records.size(); k++) {
+							Log.d(TAG, " Record #" + k + " is of class " + records.get(k).getClass().getSimpleName());
+						}
+					} catch (Exception e) {
+						Log.e(TAG, "Problem parsing message", e);
 					}
+
  				}
 			}
 		} else {
@@ -128,12 +126,7 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 		TextRecord record = new TextRecord("This is my text record");
 
 		// encode one or more record to NdefMessage
-		NdefMessageEncoder ndefMessageEncoder = NdefContext.getNdefMessageEncoder();
-		try {
-			return new NdefMessage(ndefMessageEncoder.encodeSingle(record));
-		} catch (FormatException e) {
-			throw new RuntimeException("Problem encoding record", e);
-		}
+		return new NdefMessage(record.getNdefRecord());
 	}
 
 	@Override
@@ -148,7 +141,7 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 	/** This handler receives a message from onNdefPushComplete */
 	private final Handler mHandler = new Handler() {
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case MESSAGE_SENT:
 				Toast.makeText(getApplicationContext(), "Message beamed!", Toast.LENGTH_LONG).show();
