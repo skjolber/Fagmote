@@ -69,7 +69,7 @@ We want to receieve NFC messages when our application is showing on the screen.
 
         <!-- Near field communications permissions -->
         <uses-permission android:name="android.permission.NFC" />
-		<uses-feature android:name="android.hardware.nfc" android:required="true" />
+    	<uses-feature android:name="android.hardware.nfc" android:required="true" />
 
 2. Initialize NFC [foreground mode](http://developer.android.com/guide/topics/nfc/advanced-nfc.html#foreground-dispatch) in the Hello World activity:
 
@@ -264,8 +264,9 @@ Add the following code. Call the method from onNewIntent() if a tag is detected.
 
 then verify that the code is working. Do you see the new Text Record in the log the second time you scan the tag?
 
-### c. Increment the number stored as text in the Text Record each time the tag is scanned
+### c. Increment the number stored in the Text Record on tag scan
 In the onNewIntent() method
+
 1. Detect og read the NDEF message and filter out the Text Record.
 2. Get the Text Record text, parse and increment the number
 3. Compose a new NDEF message and write it to the tag
@@ -348,9 +349,7 @@ What are the disadvantage of larger storage capacities?
 ### c. Create more record types
 1. Create well-known URI record.
 2. Create Mime Record.
-3. Create External type Record.
-4. Create Android Application Record with an Mime Record.
-Are you able to start the application and also read the Mime Record payload?
+3. Create your own External type Record.
 
 
 
