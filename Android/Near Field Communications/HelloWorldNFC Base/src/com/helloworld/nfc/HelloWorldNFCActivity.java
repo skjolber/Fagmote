@@ -1,9 +1,15 @@
 package com.helloworld.nfc;
 
+
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.ndeftools.Message;
 import org.ndeftools.Record;
+import org.ndeftools.externaltype.AndroidApplicationRecord;
+import org.ndeftools.externaltype.ExternalTypeRecord;
+import org.ndeftools.externaltype.GenericExternalTypeRecord;
 import org.ndeftools.wellknown.TextRecord;
 
 import android.app.Activity;
@@ -16,18 +22,18 @@ import android.nfc.NfcAdapter;
 import android.nfc.NfcAdapter.CreateNdefMessageCallback;
 import android.nfc.NfcAdapter.OnNdefPushCompleteCallback;
 import android.nfc.NfcEvent;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.os.Vibrator;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class HelloWorldNFCActivity extends Activity implements CreateNdefMessageCallback, OnNdefPushCompleteCallback {
     /** Called when the activity is first created. */
 	
-	private static String TAG = HelloWorldNFCActivity.class.getSimpleName();
+	private static String TAG = HelloWorldNFCActivity.class.getName();
 	
 	protected NfcAdapter nfcAdapter;
     protected PendingIntent nfcPendingIntent;
@@ -36,7 +42,7 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-    	Log.d(TAG, "onResume");
+    	Log.d(TAG, "onCreate");
 
         setContentView(R.layout.main);
     }
@@ -71,7 +77,7 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 
 		Log.d(TAG, "createNdefMessage");
 		
-		throw new IllegalArgumentException("Not implemented"); // task 3
+		throw new IllegalArgumentException("Not implemented"); // task 5
 	}
 
 	@Override
@@ -79,7 +85,7 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 		Log.d(TAG, "onNdefPushComplete");
 		
 		
-		throw new IllegalArgumentException("Not implemented"); // task 3
+		throw new IllegalArgumentException("Not implemented"); // task 5
 	}
 
 	/** 
@@ -93,5 +99,18 @@ public class HelloWorldNFCActivity extends Activity implements CreateNdefMessage
 		vibe.vibrate(500);
 	}
 
-
+	 /**
+     * Converts the byte array to HEX string.
+     * 
+     * @param buffer
+     *            the buffer.
+     * @return the HEX string.
+     */
+    public String toHexString(byte[] buffer) {
+		StringBuilder sb = new StringBuilder();
+		for(byte b: buffer)
+			sb.append(String.format("%02x ", b&0xff));
+		return sb.toString().toUpperCase();
+    }
+    
 }
