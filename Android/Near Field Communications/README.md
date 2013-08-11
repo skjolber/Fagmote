@@ -29,7 +29,7 @@ Requirements - bring this
     * Install [NFC plugin](http://nfc-eclipse-plugin.googlecode.com) from update site http://nfc-eclipse-plugin.googlecode.com/git/nfc-eclipse-plugin-feature/update-site/ 
 * Check out this (https://github.com/skjolber/Fagmote.git) Git repository. Alternatively, [download zip](https://github.com/skjolber/Fagmote/downloads). Add the projects to your workspace.
 
-Note that Eclipse is merely required for the NDEF editor, so you can still use your favorite editor for the rest of the tasks. Just make sure the projects are still added.
+Note that Eclipse is merely required for the NDEF editor, so you can still use your favorite editor for the rest of the tasks. Just make sure the base project imports successfully.
 
 Task 1 - Create new tag
 =========================
@@ -69,7 +69,7 @@ We want to receieve NFC messages when our application is showing on the screen.
 
         <!-- Near field communications permissions -->
         <uses-permission android:name="android.permission.NFC" />
-    	<uses-feature android:name="android.hardware.nfc" android:required="true" />
+        <uses-feature android:name="android.hardware.nfc" android:required="true" />
 
 2. Initialize NFC [foreground mode](http://developer.android.com/guide/topics/nfc/advanced-nfc.html#foreground-dispatch) in the Hello World activity:
 
@@ -338,7 +338,97 @@ Task 6 - Mifare Desfire EV1 basics
 ==========================
 So far we have relied on the Android NFC subsystem to abstract away the actual NFC tag communication details.
 
+### a. Open project
+Open imported project 'HelloWorldNFC Desfire Base'. 
 
+### b. Identify Desfire EV1 tag type. 
+Android supplies multiple technology-specific classes for low-level access, depending on the tag type and its contents. The __IsoDep__ class is responsible for interacting with Desfire EV1 cards. 
+
+Add the following code to the nfcIntentDetected(..) method:
+
+	Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+	if(tag != null) {
+		IsoDep isoDep = null;
+		String[] techList = tag.getTechList();
+		for (String tech : techList) {
+			Log.d(TAG, "Tech " + tech);
+
+			if (tech.equals(android.nfc.tech.IsoDep.class.getName())) {
+				isoDep = android.nfc.tech.IsoDep.get(tag);
+			}
+		}
+		if(isoDep != null) {
+			Log.d(TAG, "Detected Desfire tag");
+	        TextView textView = (TextView) findViewById(R.id.title);
+	        textView.setText("Desfire tag!");
+		} else {
+			Log.d(TAG, "Did not detect a Desfire tag");
+            
+	        TextView textView = (TextView) findViewById(R.id.title);
+	        textView.setText("Unknown tag!");
+		}
+	}
+
+### c. Read tag metadata
+Use the __DesfireReader__ class to read some basic tag metadata:
+
+	try {
+		isoDep.connect();
+
+		DesfireReader reader = new DesfireReader(isoDep);
+
+		VersionInfo versionInfo = reader.getVersionInfo();
+		Log.d(TAG, "Tag ID " + toHexString(versionInfo.getUid()));
+		Log.d(TAG, "Hardware version " + versionInfo.getHardwareVersion() + ", software version " + versionInfo.getSoftwareVersion());
+		Log.d(TAG, "Hardware capacity " + versionInfo.getHardwareStorageSize() + ", software capacity " + versionInfo.getSoftwareStorageSize());
+	} catch (Exception e) {
+		Log.d(TAG, "Problem accessing Desfire tag", e);
+	} finally {
+		try {
+			isoDep.close();
+		} catch (IOException e) {
+			// ignore
+		}
+	}			
+
+What is the tag storage capacity for this tag?
+
+### d. Read tag application directory
+Desfire EV1 files have a more structured format that most tags. It has divided the tag storage area into Applications and then files within each application. Add
+
+	int[] applicationDirectory = reader.getApplicationDirectory();
+	Log.d(TAG, "Read " + applicationDirectory.length + " apps");
+
+	for (int i = 0; i < applicationDirectory.length; i++) {
+		reader.selectApplication(applicationDirectory[i]);
+		int[] fileList = reader.getFiles();
+		Log.d(TAG, "App " + Integer.toHexString(applicationDirectory[i]) + " at index " + i + " has " + fileList.length + " files");
+	}
+
+### e. Read the files within each application
+Add 
+
+	for (int k = 0; k < fileList.length; k++) {
+		DesfireFileSettings fileSettings = reader.getFileSettings(fileList[k]);
+
+		Log.d(TAG, "Read file " + k + " settings " + fileSettings.getClass().getSimpleName() + " 0x" + Integer.toHexString(fileList[k]) + " " + fileSettings.getFileTypeName());
+        
+        // print file read and writes access
+		if(fileSettings.freeReadAccess()) {
+			Log.d(TAG, "File " + k + " is readable");
+		}
+		if(fileSettings.freeWriteAccess()) {
+			Log.d(TAG, "File " + k + " is writable");
+		}
+
+		byte[] fileContents = reader.readFile(fileList[k]);
+
+		Log.d(TAG, "Read " + fileContents.length + " bytes for file " + k);
+	}
+
+Does the fileContents byte array contain any familiar data?
+
+Hint: Create a String from the byte-array.
 
 Bonus task - more NDEF record types
 ===================================
