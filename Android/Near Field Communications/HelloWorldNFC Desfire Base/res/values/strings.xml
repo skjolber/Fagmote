@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HelloWorldNFC Desfire</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello">Hello!</string>
+
+    <string name="nfcAvailableEnabled">NFC available and enabled.</string>
+    <string name="nfcAvailableDisabled">NFC available but disabled.</string>
+    <string name="nfcBeamAvailableEnabled">Beam enabled.</string>
+    <string name="nfcBeamAvailableDisabled">Beam disabled.</string>
+    <string name="nfcBeamed">Message beamed.</string>
+    <string name="noNfcMessage">NFC is not available.</string>
+    <string name="tagNotWritable">Tag is not writable.</string>
+    
+</resources>
