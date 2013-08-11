@@ -336,13 +336,13 @@ Verify that everything is working by holding two phones together. Reflect over t
 
 Task 6 - Mifare Desfire EV1 basics
 ==========================
-So far we have relied on the Android NFC subsystem to abstract away the actual NFC tag communication details.
+So far we have relied on the Android NFC subsystem to abstract away the actual NFC tag communication details. Lets look at the [Mifare Desfire EV1 card](http://www.nxp.com/products/identification_and_security/smart_card_ics/mifare_smart_card_ics/mifare_desfire/).
 
 ### a. Open project
-Open imported project 'HelloWorldNFC Desfire Base'. 
+Open imported project 'HelloWorldNFC Desfire Base'. Open the MainActivity class.
 
 ### b. Identify Desfire EV1 tag type. 
-Android supplies multiple technology-specific classes for low-level access, depending on the tag type and its contents. The __IsoDep__ class is responsible for interacting with Desfire EV1 cards. 
+Android supplies multiple technology-specific classes for low-level access, depending on the tag type and its contents. The [IsoDep](http://developer.android.com/reference/android/nfc/tech/IsoDep.html) class is responsible for interacting with Desfire EV1 cards. 
 
 Add the following code to the nfcIntentDetected(..) method:
 
@@ -394,7 +394,7 @@ Use the __DesfireReader__ class to read some basic tag metadata:
 What is the tag storage capacity for this tag?
 
 ### d. Read tag application directory
-Desfire EV1 files have a more structured format that most tags. It has divided the tag storage area into Applications and then files within each application. Add
+Desfire EV1 files have a more structured nature that most tags. The tag storage area consists of a directory of Applications and then Files within each Application. The Add
 
 	int[] applicationDirectory = reader.getApplicationDirectory();
 	Log.d(TAG, "Read " + applicationDirectory.length + " apps");
@@ -427,8 +427,9 @@ Add
 	}
 
 Does the fileContents byte array contain any familiar data?
-
 Hint: Create a String from the byte-array.
+
+What other highly desirable functions than multi-Application support does the Desfire EV1 cards have?
 
 Bonus task - more NDEF record types
 ===================================
