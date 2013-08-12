@@ -60,7 +60,7 @@ Hint: If you do not already have an application with identifier '[no.java.schedu
 
 Task 2 - Discover tag - Hello NFC tag
 ===========================
-### a. Launch hello world application via NFC
+### a. Launch Hello World application via NFC
 Launch (run) the empty 'HelloWorldNFC Base' project, so that it gets installed on your device. Then edit the tag from the previuos task so that the Android Application package is __'com.helloworld.nfc'__.
 ### b. Change Hello World text by scanning a tag
 We want to receieve NFC messages when our application is showing on the screen. 
@@ -164,7 +164,7 @@ Parse ndefMessage from previous task into Records using
     }
 
 Verify that the expected messages appear in the log.
-### d. Determine which NDEF record types are present on the tag.
+### d. Determine which NDEF records are present on the tag.
 Iterate of the parsed record(s) and investigate their type and contents.
 
     for(int k = 0; k < records.size(); k++) {
@@ -177,7 +177,7 @@ Iterate of the parsed record(s) and investigate their type and contents.
 
 Did your tag contain the expected content?
 
-### e. Get the tag Id
+### e. Get the tag id
 The tag id can be a useful attribute. Log the tag id by adding a call to
 
     protected void printTagId(Intent intent) {
@@ -264,7 +264,7 @@ Add the following code. Call the method from onNewIntent() if a tag is detected.
 
 then verify that the code is working. Do you see the new Text Record in the log the second time you scan the tag?
 
-### c. Increment the number stored in the Text Record on tag scan
+### c. Increment the integer stored in the Text Record on tag scan
 In the onNewIntent() method
 
 1. Detect og read the NDEF message and filter out the Text Record.
